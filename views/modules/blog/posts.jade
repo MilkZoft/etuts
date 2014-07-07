@@ -1,0 +1,32 @@
+extends ../../layout
+
+block content
+  .page-content-wrapper
+    .columns
+      if (typeof(posts) !== 'undefined')
+        each post in posts
+          - var url = global.http.link('blog/' + post.year + '/' + post.month + '/' + post.day + '/' + post.slug);
+
+          .post
+            a(href=url, title=post.title)
+              img(src=post.mainImage)
+            h2
+              a(href=url, title=post.title) #{post.title}
+            p
+              | #{post.excerpt}
+            p.details
+              span.date #{global.date.format(post.createdAt, 'M d, Y')}
+              span.social
+                a.facebook(title=global.lang.social.facebook, href='https://www.facebook.com/sharer/sharer.php?t=POC&u=http://www.codejobs.biz', target='_blank')
+                  i.fa.fa-facebook &nbsp;
+                a.twitter(title=global.lang.social.twitter, href='https://twitter.com/intent/tweet?original_referer=http://www.codejobs.biz&text=EL+TEXTO+DEL+TWEET&url=http://www.codejobs.biz&via=codejobs', target='_blank')
+                  i.fa.fa-twitter &nbsp;
+                a.linkedin(title=global.lang.social.linkedin, href='https://www.linkedin.com/shareArticle?summary=DESCRIPCION&title=EL+TITULO&mini=true&url=http://www.codejobs.biz', target='_blank')
+                  i.fa.fa-linkedin &nbsp;
+                a.google(title=global.lang.social.google, href='https://www.linkedin.com/shareArticle?summary=DESCRIPCION&title=EL+TITULO&mini=true&url=http://www.codejobs.biz', target='_blank')
+                  i.fa.fa-google &nbsp;
+                a(title=global.lang.social.comment, class='comments count-comments', href=url)
+                  i.fa.fa-comments &nbsp;
+
+              span.author
+                a(href='#', title=post.author) #{post.author}

@@ -1,0 +1,24 @@
+extends ../../layout
+
+block content
+  .post-content
+    if (typeof(posts) !== 'undefined')
+      each post in posts
+        - var url = global.http.link('blog/' + post.year + '/' + post.month + '/' + post.day + '/' + post.slug);
+
+        h1 #{post.title}
+
+        .meta Posted on #{global.date.format(post.createdAt, 'M d, Y')} in PHP
+        
+        .post-content-wrapper
+          img(class="main-image", src=post.mainImage)    
+          p !{post.content}
+
+        #disqus_thread
+
+        a(href="http://disqus.com", class="dsq-brlink") 
+          | comments powered by
+          span.logo-disqus Disqus
+
+  script(type='text/javascript' src='/assets/ace/ace.js')
+  script(type='text/javascript' src='/javascripts/blog.js')
