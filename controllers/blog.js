@@ -12,6 +12,18 @@ exports.index = function(req, res) {
   });
 };
 
+exports.category = function(req, res) {
+  global.i18n.setLanguage(req.params.lang);
+  
+  blog.getPostsByCategory(req.params, function(error, result) {
+    if (typeof(result) !== 'undefined' && result.length > 0) {
+      res.render('modules/blog/posts', { posts: result });
+    } else {
+      res.render('modules/error/404');
+    }
+  });
+};
+
 exports.date = function(req, res) {
   global.i18n.setLanguage(req.params.lang);
   
