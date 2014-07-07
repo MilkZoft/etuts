@@ -16,6 +16,30 @@ Array.prototype.inArray = function()
 }
 
 /**
+ *  Slug a string
+ *
+ *  @param string
+ *  @return slug string
+ */
+String.prototype.toSlug = function()
+{
+  var str = decodeURIComponent([this].map(function (e) { return e; }).join('')).toLowerCase();
+
+
+  str = str.replace(/[\u00C0-\u00C5]/ig,'a')
+  str = str.replace(/[\u00C8-\u00CB]/ig,'e')
+  str = str.replace(/[\u00CC-\u00CF]/ig,'i')
+  str = str.replace(/[\u00D2-\u00D6]/ig,'o')
+  str = str.replace(/[\u00D9-\u00DC]/ig,'u')
+  str = str.replace(/[\u00D1]/ig,'n')
+  str = str.replace(/[^a-z0-9 ]+/gi,'')
+  str = str.trim().replace(/ /g,'-');
+  str = str.replace(/[\-]{2}/g,'');
+  
+  return (str.replace(/[^a-z\- ]*/gi,''));
+}
+
+/**
  *  Sanitizes the string input (removes the single quoutes and HTML code)
  *
  *  @param string
