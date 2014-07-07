@@ -5,19 +5,19 @@ header
   nav
     ul
       li
-        a(href="#", title=global.lang.menu.code) #{global.lang.menu.code}
+        a(href=global.http.link('blog/category/' + global.lang.menu.code.toSlug()), title=global.lang.menu.code) #{global.lang.menu.code}
       li
-        a(href="#", title=global.lang.menu.design) #{global.lang.menu.design}
+        a(href=global.http.link('blog/category/' + global.lang.menu.design.toSlug()), title=global.lang.menu.design.toSlug()) #{global.lang.menu.design}
       li
-        a(href="#", title=global.lang.menu.databases) #{global.lang.menu.databaes}
+        a(href=global.http.link('blog/category/' + global.lang.menu.databases.toSlug()), title=global.lang.menu.databases) #{global.lang.menu.databaes}
       li
-        a(href="#", title=global.lang.menu.programming) #{global.lang.menu.programming}
+        a(href=global.http.link('blog/category/' + global.lang.menu.programming.toSlug()), title=global.lang.menu.programming) #{global.lang.menu.programming}
       li
-        a(href="#", title=global.lang.menu.frameworks) #{global.lang.menu.frameworks}
+        a(href=global.http.link('blog/category/' + global.lang.menu.frameworks.toSlug()), title=global.lang.menu.frameworks) #{global.lang.menu.frameworks}
       li
-        a(href="#", title=global.lang.menu.all) #{global.lang.menu.all}
+        a(href=global.http.link('blog/categories'), title=global.lang.menu.all) #{global.lang.menu.all}
       li
-        a(href="#", title=global.lang.menu.forums) #{global.lang.menu.forums}
+        a(href=global.http.link('forums'), title=global.lang.menu.forums) #{global.lang.menu.forums}
   
   div.nav-mobile-menu.no-display
     ul
