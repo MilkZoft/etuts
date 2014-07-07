@@ -15,6 +15,27 @@ module.exports = {
     Blog.query(sql, callback);
   },
 
+  getPostByDate: function(params, callback) {
+    var language = global.lang.current,
+        sql = "SELECT " + fields + 
+              " FROM blog_posts " + 
+              " WHERE year = '" + params.year + "'";
+
+    if (typeof(params.month) !== 'undefined' && typeof(params.day) !== 'undefined') {
+      sql += " AND month = '" + params.month + "'" +
+             " AND day = '" + params.day + "'";
+    } else if(typeof(params.month) !== 'undefined') {
+      sql += " AND month = '" + params.month + "'";
+    }
+
+    sql +=  " AND language = '" + language + "'" + 
+            " AND situation = 'published'" +
+            " ORDER BY id DESC" +
+            " LIMIT 0, 12";
+       
+    Blog.query(sql, callback);
+  },
+
   getPostBySlug: function(params, callback) {
     var language = global.lang.current,
         sql = "SELECT " + fields + 
