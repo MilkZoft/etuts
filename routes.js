@@ -9,7 +9,7 @@ module.exports = function(app) {
 
   // Blog:
     app.get('/:lang(' + languages + ')/:module(blog)/', blog.index);
-    app.get('/:lang(' + languages + ')/:module(blog)/category/:category', blog.index);
+    app.get('/:lang(' + languages + ')/:module(blog)/category/:category', blog.category);
     app.get('/:lang(' + languages + ')/:module(blog)/category/:category/page/:page([0-9])', blog.index);
     app.get('/:lang(' + languages + ')/:module(blog)/page/:page([0-9])', blog.index);
     app.get('/:lang(' + languages + ')/:module(blog)/:year([0-9]{4})', blog.date);
