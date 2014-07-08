@@ -44,7 +44,7 @@ var config = {
   },
 
   vars: {
-    posts_per_page: 12
+    ppp: 12
   }
 };
 
