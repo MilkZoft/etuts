@@ -41,6 +41,10 @@ var config = {
 
   security: {
     salt: 'C0d3job$.b1z'
+  },
+
+  vars: {
+    posts_per_page: 12
   }
 };
 

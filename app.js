@@ -14,6 +14,7 @@ global.debug = require('./system/helpers/debug');
 global.date = require('./system/helpers/date');
 global.i18n = require('./system/helpers/i18n');
 global.http = require('./system/helpers/http');
+global.pagination = require('./system/helpers/pagination');
 
 global.i18n.setLanguage();
 

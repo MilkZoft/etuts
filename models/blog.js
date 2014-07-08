@@ -3,16 +3,50 @@ var Model = require('../system/model'),
     fields = 'blog_posts.id, title, blog_posts.slug, excerpt, content, author, mainImage, createdAt, day, month, year, blog_posts.language';
 
 module.exports = {
-  getAll: function(callback) {
-    var language = global.lang.current,
-        sql = "SELECT " + fields + 
-              " FROM blog_posts " + 
-              " WHERE language = '" + language + "'" + 
-              " AND situation = 'published'" +
-              " ORDER BY id DESC" +
-              " LIMIT 0, 12";
+  getAll: function(params, callback) {
+    var sql = '',
+        language = global.lang.current,
+        total = 100,
+        url = '';
+    
+    sql = "SELECT COUNT(1) AS total FROM blog_posts" +
+            " WHERE language = '" + language + "'" + 
+            " AND situation = 'published'";
+    
+    function executeQuery(sql, fn) {
+      Blog.query(sql, function (error, result) {
+        fn(result[0].total, callback);
+      });
+    }
 
-    Blog.query(sql, callback);
+    executeQuery(sql, function(result, callback) {
+      var total = result;
+      
+      if (typeof(params.page) !== 'undefined') {
+        var start = (params.page * 12) - 12,
+            limit = start + ', 12';
+        
+        if (total > 12) {
+          var pagination = global.pagination.paginate(total, 12, start, url, 12);
+        }
+      } else {
+        var start = 0,
+            limit = '0, 12';
+
+        if (total > 12) {
+          var pagination = global.pagination.paginate(total, 12, start, url, 12);
+        }
+      }
+
+      var sql = "SELECT " + fields + 
+                " FROM blog_posts " + 
+                " WHERE language = '" + language + "'" + 
+                " AND situation = 'published'" +
+                " ORDER BY id DESC" +
+                " LIMIT " + limit;
+
+      Blog.query(sql, callback);
+    });
   },
 
   getPostsByCategory: function(params, callback) {

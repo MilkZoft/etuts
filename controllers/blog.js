@@ -3,7 +3,7 @@ var blog = require('../models/blog');
 exports.index = function(req, res) {
   global.i18n.setLanguage(req.params.lang);
 
-  blog.getAll(function(error, result) {
+  blog.getAll(req.params, function(error, result) {
     if (result.length > 0) {
       res.render('modules/blog/posts', { posts: result });
     } else {
