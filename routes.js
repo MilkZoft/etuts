@@ -13,8 +13,11 @@ module.exports = function(app) {
     app.get('/:lang(' + languages + ')/:module(blog)/category/:category/page/:page([0-9])', blog.index);
     app.get('/:lang(' + languages + ')/:module(blog)/page/:page([0-9])', blog.index);
     app.get('/:lang(' + languages + ')/:module(blog)/:year([0-9]{4})', blog.date);
+    app.get('/:lang(' + languages + ')/:module(blog)/:year([0-9]{4})/page/:page([0-9])', blog.date);
     app.get('/:lang(' + languages + ')/:module(blog)/:year([0-9]{4})/:month([0-9]{2})', blog.date);
+    app.get('/:lang(' + languages + ')/:module(blog)/:year([0-9]{4})/:month([0-9]{2})/page/:page([0-9])', blog.date);
     app.get('/:lang(' + languages + ')/:module(blog)/:year([0-9]{4})/:month([0-9]{2})/:day([0-9]{2})', blog.date);
+    app.get('/:lang(' + languages + ')/:module(blog)/:year([0-9]{4})/:month([0-9]{2})/:day([0-9]{2})/page/:page([0-9])', blog.date);
     app.get('/:lang(' + languages + ')/:module(blog)/:year([0-9]{4})/:month([0-9]{2})/:day([0-9]{2})/:slug', blog.slug);
 
   // Bookmarks:
