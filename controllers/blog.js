@@ -4,7 +4,7 @@ exports.index = function(req, res) {
   global.i18n.setLanguage(req.params.lang);
 
   blog.getAll(req.params, function(total, result) {
-    if (result.length > 0) {
+    if (typeof(result) !== 'undefined' && result.length > 0) {
       if (total > global.config.vars.ppp) {
         var url = global.http.link('blog/page/'),
             start = 0;
@@ -26,9 +26,15 @@ exports.index = function(req, res) {
 exports.category = function(req, res) {
   global.i18n.setLanguage(req.params.lang);
   
-  blog.getPostsByCategory(req.params, function(error, result) {
+  blog.getPostsByCategory(req.params, function(total, result) {
     if (typeof(result) !== 'undefined' && result.length > 0) {
-      res.render('modules/blog/posts', { posts: result });
+      if (total > global.config.vars.ppp) {
+        var url = global.http.link('blog/category/' + req.params.category + '/page/'),
+            start = (typeof(req.params.page) !== 'undefined') ? (req.params.page * global.config.vars.ppp) - global.config.vars.ppp : 0,
+            pagination = global.pagination.paginate(total, global.config.vars.ppp, start, url, global.config.vars.ppp);
+      }
+
+      res.render('modules/blog/posts', { posts: result, pagination: pagination });
     } else {
       res.render('modules/error/404');
     }

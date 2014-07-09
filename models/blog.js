@@ -1,26 +1,22 @@
 var Model = require('../system/model'),
-    Blog = new Model();
+    Blog = new Model(),
     fields = 'blog_posts.id, title, blog_posts.slug, excerpt, content, author, mainImage, createdAt, day, month, year, blog_posts.language';
+
+function executeQuery(sql, callback, fn) {
+  Blog.query(sql, function (error, result) {
+    fn(result, callback);
+  });
+}
 
 module.exports = {
   getAll: function(params, callback) {
     var sql = '',
         language = global.lang.current,
-        page = 0;
-
-    if (typeof(params.page) !== 'undefined') {
-      page = params.page;
-    } 
+        page = (typeof(params.page) !== 'undefined') ? params.page : 0;
     
     sql = "CALL getPosts('" + language + "', " + page + ", " + global.config.vars.ppp + ");";
     
-    function executeQuery(sql, fn) {
-      Blog.query(sql, function (error, result) {
-        fn(result, callback);
-      });
-    }
-
-    executeQuery(sql, function(result, callback) {
+    executeQuery(sql, callback, function(result, callback) {
       var total = result[0][0].total,
           posts = result[1];
       
@@ -29,20 +25,17 @@ module.exports = {
   },
 
   getPostsByCategory: function(params, callback) {
-    var language = global.lang.current,
-        categories = ", GROUP_CONCAT(blog_categories.category SEPARATOR ', ') AS categories",
-        sql = "SELECT " + fields + categories +
-              " FROM blog_posts " + 
-              " LEFT JOIN blog_re_categories2posts ON (blog_re_categories2posts.postId = blog_posts.id)" +
-              " LEFT JOIN blog_categories ON (blog_categories.id = blog_re_categories2posts.categoryId)" +
-              " WHERE blog_categories.slug = '" + params.category + "'" +
-              " AND blog_posts.language = '" + language + "'" + 
-              " AND blog_categories.language = '" + language + "'" + 
-              " GROUP BY blog_posts.id"
-              " ORDER BY blog_posts.id DESC" +
-              " LIMIT 0, 12";
-       
-    Blog.query(sql, callback);
+    var sql = '',
+        language = global.lang.current,
+        page = (typeof(params.page) !== 'undefined') ? params.page : 0;
+        sql = "CALL getPostsByCategory('" + params.category + "', '" + language + "', " + page + ", " + global.config.vars.ppp + ")";
+  
+    executeQuery(sql, callback, function(result, callback) {
+      var total = result[0][0].total,
+          posts = result[1];
+     
+      callback(total, posts);
+    });
   },
 
   getPostsByDate: function(params, callback) {
