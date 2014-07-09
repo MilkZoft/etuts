@@ -41,13 +41,13 @@ var self = {
         pge = i + 1;
         next = i * end;
 
-        pageNav += (start == next) ? '<span class="page active">' + pge + '</span>' : '<a href="#" class="page gradient">' + pge + '</a>';
+        pageNav += (start == next) ? '<span class="page active">' + pge + '</span>' : '<a href="' + url + pge + '" class="page gradient">' + pge + '</a>';
       }
 
       currentPage = (start == 0) ? 1 : (start / end) + 1;
 
-      pageNext = (currentPage < pages) ? '<a href="' + url + (currentPage + 1) +'/" class="page gradient">Next</a>' : '';
-      pagePrevious = (start > 0) ? '<a href="' + url + (currentPage - 1) +'" class="page gradient">Previous</a>' : '';
+      pageNext = (currentPage < pages) ? '<a href="' + url + (currentPage + 1) + '" class="page gradient">Next</a>' : '';
+      pagePrevious = (start > 0) ? '<a href="' + url + (currentPage - 1) + '" class="page gradient">Previous</a>' : '';
     }
 
     return '<div class="pagination">'+ pagePrevious + pageNav + pageNext + '</div>';

@@ -6,8 +6,6 @@ module.exports = {
   getAll: function(params, callback) {
     var sql = '',
         language = global.lang.current,
-        total = 100,
-        url = '',
         page = 0;
 
     if (typeof(params.page) !== 'undefined') {
@@ -43,7 +41,6 @@ module.exports = {
               " GROUP BY blog_posts.id"
               " ORDER BY blog_posts.id DESC" +
               " LIMIT 0, 12";
-        console.log(sql);
        
     Blog.query(sql, callback);
   },
