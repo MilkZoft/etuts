@@ -44,9 +44,18 @@ exports.category = function(req, res) {
 exports.date = function(req, res) {
   global.i18n.setLanguage(req.params.lang);
   
-  blog.getPostsByDate(req.params, function(error, result) {
+  blog.getPostsByDate(req.params, function(total, result) {
     if (typeof(result) !== 'undefined' && result.length > 0) {
-      res.render('modules/blog/posts', { posts: result });
+      console.log(result);
+      if (total > global.config.vars.ppp) {
+        var month = (typeof(req.params.month) !== 'undefined') ? params.month + '/' : '',
+            day = (typeof(req.params.day) !== 'undefined') ? params.day + '/' : '',
+            url = global.http.link('blog/' + req.params.year + '/' + month + day + 'page/'),
+            start = (typeof(req.params.page) !== 'undefined') ? (req.params.page * global.config.vars.ppp) - global.config.vars.ppp : 0,
+            pagination = global.pagination.paginate(total, global.config.vars.ppp, start, url, global.config.vars.ppp);
+      }
+      
+      res.render('modules/blog/posts', { posts: result, pagination: pagination });
     } else {
       res.render('modules/error/404');
     }

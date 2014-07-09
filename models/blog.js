@@ -27,7 +27,7 @@ module.exports = {
   getPostsByCategory: function(params, callback) {
     var sql = '',
         language = global.lang.current,
-        page = (typeof(params.page) !== 'undefined') ? params.page : 0;
+        page = (typeof(params.page) !== 'undefined') ? params.page : 0,
         sql = "CALL getPostsByCategory('" + params.category + "', '" + language + "', " + page + ", " + global.config.vars.ppp + ")";
   
     executeQuery(sql, callback, function(result, callback) {
@@ -40,23 +40,17 @@ module.exports = {
 
   getPostsByDate: function(params, callback) {
     var language = global.lang.current,
-        sql = "SELECT " + fields + 
-              " FROM blog_posts " + 
-              " WHERE year = '" + params.year + "'";
-
-    if (typeof(params.month) !== 'undefined' && typeof(params.day) !== 'undefined') {
-      sql += " AND month = '" + params.month + "'" +
-             " AND day = '" + params.day + "'";
-    } else if(typeof(params.month) !== 'undefined') {
-      sql += " AND month = '" + params.month + "'";
-    }
-
-    sql +=  " AND language = '" + language + "'" + 
-            " AND situation = 'published'" +
-            " ORDER BY id DESC" +
-            " LIMIT 0, 12";
+        page = (typeof(params.page) !== 'undefined') ? params.page : 0,
+        month = (typeof(params.month) !== 'undefined') ? params.month : 0,
+        day = (typeof(params.day) !== 'undefined') ? params.day : 0,
+        sql = "CALL getPostsByDate(" + params.year + ", " + month + ", " + day + ", '" + language + "', " + page + ", " + global.config.vars.ppp + ")";
+        
+    executeQuery(sql, callback, function(result, callback) {
+      var total = result[0][0].total,
+          posts = result[1];
        
-    Blog.query(sql, callback);
+      callback(total, posts);
+    });
   },
 
   getPostBySlug: function(params, callback) {
