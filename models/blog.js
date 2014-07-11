@@ -4,6 +4,7 @@ var Model = require('../system/model'),
 
 function executeQuery(sql, callback, fn) {
   Blog.query(sql, function (error, result) {
+    console.log(result);
     fn(result, callback);
   });
 }
@@ -17,8 +18,8 @@ module.exports = {
     sql = "CALL getPosts('" + language + "', " + page + ", " + global.config.vars.ppp + ");";
     
     executeQuery(sql, callback, function(result, callback) {
-      var total = result[0][0].total,
-          posts = result[1];
+      var total = (typeof(result) !== 'undefined') ? result[0][0].total : 0,
+          posts = (typeof(result) !== 'undefined') ? result[1] : [];
       
       callback(total, posts);
     });
@@ -31,8 +32,8 @@ module.exports = {
         sql = "CALL getPostsByCategory('" + params.category + "', '" + language + "', " + page + ", " + global.config.vars.ppp + ")";
   
     executeQuery(sql, callback, function(result, callback) {
-      var total = result[0][0].total,
-          posts = result[1];
+      var total = (typeof(result) !== 'undefined') ? result[0][0].total : 0,
+          posts = (typeof(result) !== 'undefined') ? result[1] : [];
      
       callback(total, posts);
     });
@@ -46,8 +47,8 @@ module.exports = {
         sql = "CALL getPostsByDate(" + params.year + ", " + month + ", " + day + ", '" + language + "', " + page + ", " + global.config.vars.ppp + ")";
         
     executeQuery(sql, callback, function(result, callback) {
-      var total = result[0][0].total,
-          posts = result[1];
+      var total = (typeof(result) !== 'undefined') ? result[0][0].total : 0,
+          posts = (typeof(result) !== 'undefined') ? result[1] : [];
        
       callback(total, posts);
     });

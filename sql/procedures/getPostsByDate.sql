@@ -21,7 +21,9 @@ BEGIN
     SET _limit1 = _page * _max - _max;
   END IF;
 
-  IF  _year <> 0 AND _month <> 0 AND _day <> 0 THEN
+  IF _year <> 0 AND _month <> 0 AND _day <> 0 THEN
+    CALL debug('Year, Month, Day');
+
     SELECT COUNT(1) AS total FROM blog_posts
       WHERE language = _language
         AND year = _year
@@ -40,6 +42,7 @@ BEGIN
       LIMIT _limit1, _limit2;
   ELSE
     IF _year <> 0 AND _month <> 0 THEN
+      CALL debug('Year, Month');
       SELECT COUNT(1) AS total FROM blog_posts
         WHERE language = _language
           AND year = _year
@@ -55,6 +58,7 @@ BEGIN
         ORDER BY blog_posts.id DESC
         LIMIT _limit1, _limit2;
     ELSE
+      CALL debug('Year');
       SELECT COUNT(1) AS total FROM blog_posts
         WHERE language = _language
           AND year = _year
