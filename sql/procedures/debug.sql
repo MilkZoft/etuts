@@ -1,7 +1,6 @@
 DELIMITER $$
 CREATE PROCEDURE debug(msg VARCHAR(255))
 BEGIN
- select concat("** ", msg) AS '** DEBUG:'; 
-  
+ SELECT CONCAT("*** ", msg) AS '*** DEBUG:'; 
 END $$
 DELIMITER

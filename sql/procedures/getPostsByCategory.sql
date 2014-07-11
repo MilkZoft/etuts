@@ -40,6 +40,5 @@ BEGIN
       GROUP BY blog_posts.id
       ORDER BY blog_posts.id DESC
       LIMIT _limit1, _limit2;
-
 END $$
 DELIMITER ;
