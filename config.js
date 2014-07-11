@@ -5,8 +5,9 @@ var config = {
     password: '211182',
     database: 'etuts',
     port: 3306,
-    debug: false,
-    socket: '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock'
+    debug: true,
+    socket: '/var/run/mysqld/mysqld.sock', // For linux...
+    //socket: '/Applications/XAMPP/xamppfiles/var/mysql/mysql.sock' For mac...
   },
   
   site: {
